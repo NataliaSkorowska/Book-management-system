@@ -1,0 +1,21 @@
+﻿@model int
+
+@{
+    ViewBag.Title = "Błąd 404";
+}
+<br />
+<br />
+<body class="background">
+    <div class="alert alert-danger mt-1 mb-1">
+        <h4>Błąd 404 - nie znaleziono </h4>
+        <hr />
+        <h5>
+            Wprowadzony numer nie jest zgodny z numer znajdującym się w bazie!
+        </h5>
+    </div>
+    <br />
+    <br />
+    <a id="links" asp-action="Index" class="btn btn-primary background" style="background-color: #3c523e">
+        Powrót do listy książek
+    </a>
+</body>

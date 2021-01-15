@@ -1,0 +1,15 @@
+﻿@page
+@model LockoutModel
+@{
+    ViewData["Title"] = "Konto zostało zablokowane";
+}
+<body class="background">
+
+    <header>
+        <h1 class="text-danger">@ViewData["Title"]</h1>
+        <p class="text-danger">
+            Liczba nieudanych prób logowania została przekroczona, a Twoje konto zablokowane.
+            Spróbuj ponownie później
+        </p>
+    </header>
+</body>

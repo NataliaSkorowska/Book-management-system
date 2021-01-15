@@ -1,0 +1,12 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Twoje konto zostało pomyślnie utworzone!";
+}
+<body class="background">
+    <br />
+    <h1>@ViewData["Title"]</h1>
+    <br />
+
+    <a id="log" asp-area="Identity" asp-page="/Account/Login">Zaloguj się</a>
+</body>

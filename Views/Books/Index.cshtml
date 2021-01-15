@@ -1,0 +1,137 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model PaginatedList<CompanyBookstore.Models.Book>
+@{
+    ViewData["Title"] = "Lista książek";
+}
+<body class="background">
+    <br />
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <h1>Lista książek </h1>
+    }
+    
+    <a type="submit" value="Dodaj książkę" class="btn btn-primary background" style="background-color: #3c523e" asp-action="Create" >Dodaj książkę</a>
+    
+    
+
+    @using (Html.BeginForm("Index","Books", FormMethod.Get))
+    {<br />
+        <p>
+            Szukaj: @Html.TextBox("SearchString")
+            <input type="submit" value="Szukaj" />
+        </p>
+        <div class="radio-inline" id="rbuttons">
+            @Html.RadioButton("searchBy", "Title", true) <text class="ml-3">Tytuł</text>
+            @Html.RadioButton("searchBy", "Author", false, new { @class = "ml-3" })<text class="ml-3">Autor</text>
+            @Html.RadioButton("searchBy", "Publisher", false, new { @class = "ml-3" })<text class="ml-3">Wydawca</text>
+        </div>
+    }
+    @if (@TempData["Message"] != null)
+    {
+        <p>
+            @TempData["Message"]
+        </p>
+    }
+    <br />
+    @if (ViewBag.Message != null)
+    {
+        <p>
+            @ViewBag.Message
+        </p>
+    }
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.ActionLink("Id książki", "Index", new { sortOrder = ViewBag.BookIdSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Kategoria", "Index", new { sortOrder = ViewBag.CategorySortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Tytuł", "Index", new { sortOrder = ViewBag.TitleSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Autor", "Index", new { sortOrder = ViewBag.AuthorSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Cena", "Index", new { sortOrder = ViewBag.PriceSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Bestseller", "Index", new { sortOrder = ViewBag.BestsellerSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Data premiery", "Index", new { sortOrder = ViewBag.DateSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Wydawca", "Index", new { sortOrder = ViewBag.PublisherSortParm })
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.BookTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookAuthor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bestseller)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Publisher)
+                </td>
+                <td>
+                    <a class="green" asp-action="Edit" asp-route-id="@item.BookID">Edytuj</a>
+                    <br />
+                    <a class="green" asp-action="Details" asp-route-id="@item.BookID">Szczegóły</a>
+                    <br />
+                    <a class="green" asp-action="Delete" asp-route-id="@item.BookID">Usuń</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+    <section>
+        <div class="d-flex justify-content-center">
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewBag.CurrentSort"
+               asp-route-pageNumber="@(Model.PageIndex - 1)"
+               asp-route-currentFilter="@ViewBag.CurrentFilter"
+               class = "btn btn-default @prevDisabled">
+                Poprzednia
+            </a>
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewBag.CurrentSort]"
+               asp-route-pageNumber="@(Model.PageIndex + 1)"
+               asp-route-currentFilter="@ViewBag.CurrentFilter"
+               class = "btn btn-default @nextDisabled">
+                Następna
+            </a>
+        </div>
+    </section>
+</body>
